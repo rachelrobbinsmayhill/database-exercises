@@ -13,9 +13,9 @@ WHERE first_name IN ('Irena', 'Vidya', 'Maya');
 SELECT emp_no, first_name, last_name
 FROM employees
 WHERE first_name LIKE 'Irena' 
-OR 'Vidya' 
-OR 'Maya';
-#241 Rows returned
+OR first_name LIKE 'Vidya' 
+OR first_name LIKE 'Maya';
+#709 Rows returned
 
 
 
@@ -24,10 +24,10 @@ DESCRIBE employees;
 SELECT emp_no, first_name, last_name, gender
 FROM employees
 WHERE gender = "M" AND 
-first_name LIKE 'Irena' 
-OR 'Vidya' 
-OR 'Maya';
-#144 Rows returned
+(first_name LIKE 'Irena' 
+OR first_name LIKE 'Vidya' 
+OR first_name LIKE 'Maya');
+#441 Rows returned
 
 
 
@@ -35,7 +35,6 @@ OR 'Maya';
 SELECT emp_no, last_name
 FROM employees
 WHERE last_name LIKE 'e%';
-
 #7330 rows returned for last name starts with "e".
 
 
@@ -45,14 +44,13 @@ SELECT emp_no, last_name
 FROM employees
 WHERE last_name LIKE 'e%' 
   OR  last_name LIKE '%e';
-  
- #30,723 rows returned for last name starts OR ends with E
+#30,723 rows returned for last name starts OR ends with E
+
 
 SELECT emp_no, last_name
 FROM employees
 WHERE last_name LIKE '%e' 
   AND NOT last_name LIKE 'e%';
-
 #23393 rows returned for last name end with "e" but does not start wiht "e"
 
 
