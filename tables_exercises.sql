@@ -1,9 +1,8 @@
-SHOW DATABASES;
-USE `chipotle`;
-SELECT database ();
-SHOW DATABASES;
-USE `numbers`;
-SELECT database ();
+#tables_exercises.sql
+
+# Open Sequel Ace and login to the database server
+# Save your work in a file named tables_exercises.sql
+#Use the employees database
 
 SHOW DATABASES;
 USE `employees`;
@@ -22,19 +21,23 @@ DESCRIBE `dept_manager`;
 SHOW CREATE TABLE `dept_manager`;
 
 
+# 4. List all the tables: 
+-- There are 8 tables.
 
+# 5. What kind of data types are present on this table? 
+-- int, date (x2), varchar (x2), and enum
 
-# 4. List all the tables: There are 8 tables.
+# 6. Which table(s) do you think contain a numeric type column? 
+-- dept_emp, dept_manager, employees, salaries, titles, current_dept_emp, dept_emp_latest_date  
 
-# 5. What kind of data types are present on this table? int, date (x2), varchar (x2), and enum
+# 7. Which table(s) do you think contain a string type column? 
+-- departments, dept_emp,dept_manager,employees, titles, current_dept_emp     
 
-# 6. Which table(s) do you think contain a numeric type column? dept_emp, dept_manager, employees, salaries, titles, current_dept_emp, dept_emp_latest_date  
+# 8. Which table(s) do you think contain a date type column? 
+-- dept_emp, dept_manager, employees, salaries, titles, current_dept_emp, dept_emp_latest_date    
 
-# 7. Which table(s) do you think contain a string type column? departments, dept_emp,dept_manager,employees, titles, current_dept_emp     
-
-# 8. Which table(s) do you think contain a date type column? dept_emp, dept_manager, employees, salaries, titles, current_dept_emp, dept_emp_latest_date    
-
-# 9. What is the relationship between the employees and the departments tables?  Currently there does not display a commonality. It may be helpful to add a deprtment column to the employee table. 
+# 9. What is the relationship between the employees and the departments tables?  
+-- Currently there does not display a commonality. It may be helpful to add a deprtment column to the employee table. 
 
 # 10.Show the SQL that created the dept_manager table: CREATE TABLE `dept_manager` (
   `emp_no` int NOT NULL,
