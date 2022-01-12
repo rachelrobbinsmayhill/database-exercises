@@ -1,4 +1,4 @@
-#tables_exercises.sql
+# tables_exercises.sql
 
 # Open Sequel Ace and login to the database server
 # Save your work in a file named tables_exercises.sql
