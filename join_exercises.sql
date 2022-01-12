@@ -54,14 +54,15 @@ LEFT JOIN users u ON u.role_id = r.id
 GROUP BY r.name, r.id; 
 
 
-# Remember COUNT(*) counts ALL rows - NULL AND NOT NULL
--- COUNT(specified column) counts only NOT NULL values
+--  Remember COUNT(*) counts ALL rows - NULL AND NOT NULL
+--  COUNT(specified column) counts only NOT NULL values
 
 
 #1. Use the employees database.
 
 SHOW Databases;
 USE employees;
+SELECT * FROM employees;
 
 #2. Using the example in the Associative Table Joins section as a guide, write a query that shows each department along with the name of the current manager for that department.
 
@@ -242,15 +243,69 @@ SELECT * FROM dept_emp;
 DESCRIBE dept_emp;
 
 
-SELECT CONCAT(e.first_name, ' ', e.last_name) AS employee_name, 		 d.dept_name AS dept_name		
+SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Employee Name', 		 d.dept_name AS 'Department Name', CONCAT(em.first_name, ' ', em.last_name) AS 'Manager Name' 	
 FROM departments d
 JOIN dept_emp de
 	ON d.dept_no = de.dept_no	
 JOIN employees e
 	ON de.emp_no = e.emp_no
-WHERE de.to_date = '9999-01-01'
-ORDER BY employee_name LIMIT 5;
+JOIN dept_manager dm
+	ON d.dept_no = dm.dept_no
+JOIN employees em
+	ON dm.emp_no = em.emp_no
+	
+WHERE de.to_date = '9999-01-01' AND dm.to_date = '9999-01-01'
+ORDER BY CONCAT(e.first_name, ' ', e.last_name);
 
 
 
-CONCAT(e.first_name, ' ', 		e.last_name) AS manager_name
+
+
+
+
+SELECT e.first_name AS first_name, e.last_name AS last_name
+FROM departments d
+JOIN dept_emp de
+	ON d.dept_no = de.dept_no
+JOIN employees e
+	ON de.emp_no = e.emp_no
+JOIN salaries s
+	ON e.emp_no = s.emp_no
+WHERE de.to_date = '9999-01-01' AND s.to_date = '9999-01-01' AND d.dept_no = 'd001' 
+ORDER BY s.salary DESC limit 1;
+
+#12. Bonus Who is the highest paid employee within each department.
+
+SELECT * FROM departments;
+SELECT * FROM dept_emp;
+SELECT * FROM salaries;
+
+
+SELECT d.dept_name AS department, 
+		  CONCAT(e.first_name, ' ', e.last_name) AS employee_name, 
+		  s.salary AS salary
+
+FROM departments d
+JOIN dept_emp de
+	ON d.dept_no = de.dept_no
+JOIN employees e
+	ON de.emp_no = e.emp_no
+JOIN salaries s
+	ON e.emp_no = s.emp_no
+WHERE de.to_date = '9999-01-01' AND s.to_date = '9999-01-01'
+	AND (d.dept_name, s.salary) IN
+			(SELECT
+				d.dept_name, MAX(s.salary)
+				FROM departments d
+ 				  JOIN dept_emp de
+						ON d.dept_no = de.dept_no
+				  JOIN employees e
+						ON de.emp_no = e.emp_no
+				  JOIN salaries s
+						ON e.emp_no = s.emp_no
+           WHERE de.to_date = '9999-01-01' AND s.to_date = '9999-01-01'
+           GROUP BY d.dept_name
+				)
+ORDER BY salary DESC;
+
+
