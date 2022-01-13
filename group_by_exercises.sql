@@ -6,7 +6,7 @@
 
 # 2. In your script, use DISTINCT to find the unique titles in the titles table. How many unique titles have there ever been? Answer that in a comment in your SQL file.
 
-SHOW DATABASES;
+
 USE employees;
 DESCRIBE titles;
 SELECT DISTINCT title FROM titles;
@@ -61,7 +61,7 @@ Qiwen
 
 #6. Add a COUNT() to your results (the query above) to find the number of employees with the same last name.
 
-SELECT COUNT(last_name), last_name
+SELECT last_name, COUNT(*)
 FROM employees
 WHERE last_name LIKE '%q%' 
    AND last_name NOT LIKE '%qu%'  
@@ -80,7 +80,7 @@ GROUP BY last_name;
 #7. Find all all employees with first names 'Irena', 'Vidya', or 'Maya'. Use COUNT(*) and GROUP BY to find the number of employees for each gender with those names.
 
 DESCRIBE employees;
-SELECT first_name, gender, COUNT(gender)
+SELECT first_name, gender, COUNT(*)
 FROM employees
 WHERE first_name LIKE 'Irena' 
 OR first_name LIKE 'Vidya' 
@@ -99,6 +99,14 @@ Vidya	F	81
 */
 
 
+
+#Alternate: 
+DESCRIBE employees;
+SELECT first_name, gender, COUNT(*)
+FROM employees
+WHERE first_name IN( 'Irena', 'Vidya', 'Maya')
+GROUP BY first_name, gender
+ORDER BY first_name; 
 
 
 #8. Using your query that generates a username for all of the employees, generate a count employees for each unique username. Are there any duplicate usernames? BONUS: How many duplicate usernames are there?
@@ -125,7 +133,28 @@ FROM employees
 GROUP BY user_name
 HAVING Count(user_name) >= 2;
 
+#Alternate #2:
 
+SELECT LOWER(CONCAT(SUBSTR(first_name,1,1), SUBSTR(last_name,1,4), "_", SUBSTR(birth_date,6,2), SUBSTR(birth_date,3,2))) AS user_name,
+	COUNT(*) AS duplicate_usernames 
+
+FROM employees
+GROUP BY user_name
+HAVING duplicate_usernames >1
+ORDER BY duplicate_usernames DESC;
+
+
+#3 Alternate: 
+SELECT t.count(*),
+SUM(t.duplicate_usernames)
+FROM
+(SELECT LOWER(CONCAT(SUBSTR(first_name,1,1), SUBSTR(last_name,1,4), "_", SUBSTR(birth_date,6,2), SUBSTR(birth_date,3,2))) AS user_name,
+	COUNT(*) AS duplicate_usernames 
+
+FROM employees
+GROUP BY user_name
+HAVING duplicate_usernames > 1
+ORDER BY duplicate_usernames DESC) as t;
 
 
 #9. More practice with aggregate functions:
@@ -159,12 +188,40 @@ d008	15441
 d009	17569
 */
 
+
+
+#Alternate:
+
+DESCRIBE dept_emp;
+SELECT * FROM dept_emp;
+SELECT dept_no, COUNT(*) 
+FROM dept_emp
+	WHERE to_date = '9999-01-01'
+GROUP BY dept_no;
+
+
+#Alternate #2: 
+DESCRIBE dept_emp;
+SELECT * FROM dept_emp;
+SELECT dept_no, COUNT(*) 
+FROM dept_emp
+WHERE to_date > NOW()
+GROUP BY dept_no;
+
 -- c. Determine how many different salaries each employee has had. This includes both historic and current.
 
+SELECT * FROM salaries;
+SELECT emp_no, COUNT(*)
+FROM salaries
+GROUP BY emp_no;
+
+
+#Alternate: 
 SELECT * FROM salaries;
 SELECT emp_no, COUNT(emp_no)
 FROM salaries
 GROUP BY emp_no;
+
 
 
 
@@ -197,7 +254,11 @@ FROM salaries
 GROUP BY emp_no;
 # 15 rows returned
 
-
+# Alternate: 
+SELECT emp_no, MAX(salary) AS max_sal
+FROM salaries
+GROUP BY emp_no
+HAVING max_sal > 150000;
 
 -- h. Find the average salary for each employee where that average salary is between $80k and $90k.
 
@@ -206,4 +267,11 @@ SELECT emp_no, AVG(salary) AS average_salary
 FROM salaries
 GROUP BY emp_no
 HAVING AVG(salary) BETWEEN 80000 AND 90000;
+
+# Alternate: 
+SELECT emp_no, AVG(salary) AS avg_sal
+FROM salaries
+GROUP BY emp_no
+HAVING avg_sal > 80000 AND avg_sal < 90000
+ORDER BY avg_sal DESC;
 

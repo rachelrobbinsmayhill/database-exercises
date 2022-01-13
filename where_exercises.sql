@@ -1,3 +1,4 @@
+# where_exercises.sql
 USE employees;
 
 
@@ -112,4 +113,4 @@ SELECT last_name
 FROM employees
 WHERE last_name LIKE '%q%' 
    AND last_name NOT LIKE '%qu%';
- # 547 rows returned for last names with q but NOT qu. 
+ # 547 rows returned for last names with q but NOT qu.

@@ -2,6 +2,12 @@
 #1. 
 # limit_exercises.sql
 
+SHOW TABLES;
+
+SELECT DISTINCT title
+FROM titles;
+
+
 #2.
 SHOW DATABASES;
 USE employees;
@@ -10,7 +16,8 @@ FROM employees
 ORDER BY last_name DESC
 LIMIT 10;
 
-/*Zykh
+/*
+Zykh
 Zyda
 Zwicker
 Zweizig
@@ -29,7 +36,7 @@ DESCRIBE employees;
 SELECT first_name, last_name, hire_date
 FROM employees
 WHERE birth_date LIKE '%12-25%'
-	AND hire_date BETWEEN '1990-01-01' AND '1999-12-31'
+	AND hire_date LIKE '199%'
 	ORDER BY hire_date ASC
 LIMIT 5;
 
@@ -61,4 +68,7 @@ Ipke	Fontan	1990-08-06
 */
 
 # The relationship betweem offset, limit, and page number can be identified using a formula
- # Offset = (limit * desired page number) - limit
+ # Offset = (limit * desired page number) - limit 
+ # OR (Page-1) * Limit = Offset
+ 
+ #added

@@ -60,3 +60,12 @@ WHERE birth_date LIKE '%12-25%'
 # 362 Employees returned. 
 # OLDEST EMPLOEE HIRED LAST: 33936	Khun	Bernini	1952-12-25	1999-08-31
 # YOUNGEST EMPLOYEE HIRED FIRST: 412745	Douadi	Pettis	1964-12-25	1990-05-04 
+
+
+# Alternative
+
+SELECT emp_no, first_name, last_name, birth_date, hire_date
+FROM employees
+WHERE birth_date LIKE '%12-25%'
+	AND hire_date LIKE '199%'
+	ORDER BY birth_date ASC, hire_date DESC;

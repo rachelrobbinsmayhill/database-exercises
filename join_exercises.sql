@@ -47,12 +47,25 @@ ON u.role_id = r.id;
 
 # Although not explicitly covered in the lesson, aggregate functions like count can be used with join queries. Use count and the appropriate join type to get a list of roles along with the number of users that has the role. Hint: You will also need to use group by in the query.
 
-SELECT r.id, r.name, u.role_id, 
+SELECT * FROM users;
+DESCRIBE users;
+
+SELECT * FROM roles;
+DESCRIBE roles;
+
+
+SELECT r.id AS role_id, r.name AS role_name, u.role_id AS user_role_id, 
 	COUNT(u.id)
 FROM roles r
 LEFT JOIN users u ON u.role_id = r.id
 GROUP BY r.name, r.id; 
 
+
+SELECT r.id, r.name, u.role_id, 
+	COUNT(*)
+FROM roles r
+LEFT JOIN users u ON u.role_id = r.id
+GROUP BY r.name, r.id; 
 
 --  Remember COUNT(*) counts ALL rows - NULL AND NOT NULL
 --  COUNT(specified column) counts only NOT NULL values
@@ -99,6 +112,25 @@ WHERE m.to_date = '9999-01-01';
 
 
 #3. Find the name of all departments currently managed by women.
+USE employees;
+SELECT * FROM departments;
+DESCRIBE departments;
+-- primary key: dept_no
+-- fields: dept_no, dept_name
+
+SELECT * FROM dept_manager;
+DESCRIBE dept_manager;
+-- primary key: emp_no, dept_no
+-- fields:  emp_no, dept_no, from_date, to_date
+-- association: dept_no
+
+SELECT * FROM employees;
+DESCRIBE employees;
+-- primary key: emp_no
+-- fields: emp_no, birth_date, first_name, last_name, gender, hire_date
+-- association: emp_no
+
+
 
 SELECT 
 	d.dept_name AS "Department Name", 
@@ -206,7 +238,10 @@ ORDER BY s.salary DESC limit 1;
 #9. Which current department manager has the highest salary?
 
 SELECT 
-	e.first_name AS first_name, e.last_name AS last_name, s.salary 	AS salary, d.dept_name AS dept_name
+	e.first_name AS first_name, 
+	e.last_name AS last_name, 
+	s.salary 	AS salary, 
+	d.dept_name AS dept_name
 FROM departments d
 	JOIN dept_manager dm
 		ON d.dept_no = dm.dept_no
@@ -222,7 +257,8 @@ ORDER BY s.salary DESC LIMIT 1;
 
 SELECT * FROM salaries;
 
-SELECT d.dept_name AS dept_name, ROUND(AVG(s.salary)) AS average_salary
+SELECT d.dept_name AS dept_name, 
+		ROUND(AVG(s.salary)) AS average_salary
 FROM departments d
 	JOIN dept_emp de
 		ON d.dept_no = de.dept_no
@@ -243,7 +279,10 @@ SELECT * FROM dept_emp;
 DESCRIBE dept_emp;
 
 
-SELECT CONCAT(e.first_name, ' ', e.last_name) AS 'Employee Name', 		 d.dept_name AS 'Department Name', CONCAT(em.first_name, ' ', em.last_name) AS 'Manager Name' 	
+SELECT 
+	CONCAT(e.first_name, ' ', e.last_name) AS 'Employee Name', 		 
+	d.dept_name AS 'Department Name', 
+	CONCAT(em.first_name, ' ', em.last_name) AS 'Manager Name' 
 FROM departments d
 JOIN dept_emp de
 	ON d.dept_no = de.dept_no	
@@ -276,6 +315,8 @@ ORDER BY s.salary DESC limit 1;
 
 #12. Bonus Who is the highest paid employee within each department.
 
+SHOW Databases;
+USE employees;
 SELECT * FROM departments;
 SELECT * FROM dept_emp;
 SELECT * FROM salaries;
