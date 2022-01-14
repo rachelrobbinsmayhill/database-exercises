@@ -2,7 +2,7 @@
 
 
 #. Use the join_example_db. Select all the records from both the users and roles tables.
-SHOW Databases;
+SHOW DATABASES;
 USE join_example_db;
 
 SELECT * 
@@ -73,7 +73,7 @@ GROUP BY r.name, r.id;
 
 #1. Use the employees database.
 
-SHOW Databases;
+SHOW DATABASES;
 USE employees;
 SELECT * FROM employees;
 
@@ -140,7 +140,7 @@ JOIN dept_manager m
 	ON e.emp_no = m.emp_no	
 JOIN departments d
 	ON m.dept_no = d.dept_no
-WHERE m.to_date = '9999-01-01' and e.gender = "f";
+WHERE m.to_date = '9999-01-01' AND e.gender = "f";
 
 
 
@@ -201,10 +201,10 @@ GROUP BY dept_no
 ORDER BY dept_no;
 
 
-#7. Which department has the highest average salary? Hint: Use current not historic information.
+#7. Which department has the highest salary? Hint: USE current NOT historic information.
 
 SELECT * FROM salaries;
-SELECT * FROm dept_emp;
+SELECT * FROM dept_emp;
 
 
 SELECT d.dept_name AS dept_name, AVG(s.salary) AS average_salary
@@ -215,7 +215,7 @@ JOIN salaries s
 	ON de.emp_no = s.emp_no
 WHERE s.to_date = '9999-01-01' AND de.to_date = '9999-01-01'
 GROUP BY dept_name 
-ORDER BY average_salary DESC limit 1;
+ORDER BY average_salary DESC LIMIT 1;
 
 
 
@@ -232,7 +232,7 @@ JOIN employees e
 JOIN salaries s
 	ON e.emp_no = s.emp_no
 WHERE de.to_date = '9999-01-01' AND s.to_date = '9999-01-01' AND d.dept_no = 'd001' 
-ORDER BY s.salary DESC limit 1;
+ORDER BY s.salary DESC LIMIT 1;
 
 
 #9. Which current department manager has the highest salary?
@@ -311,11 +311,11 @@ JOIN employees e
 JOIN salaries s
 	ON e.emp_no = s.emp_no
 WHERE de.to_date = '9999-01-01' AND s.to_date = '9999-01-01' AND d.dept_no = 'd001' 
-ORDER BY s.salary DESC limit 1;
+ORDER BY s.salary DESC LIMIT 1;
 
 #12. Bonus Who is the highest paid employee within each department.
 
-SHOW Databases;
+SHOW DATABASES;
 USE employees;
 SELECT * FROM departments;
 SELECT * FROM dept_emp;
@@ -348,5 +348,3 @@ WHERE de.to_date = '9999-01-01' AND s.to_date = '9999-01-01'
            GROUP BY d.dept_name
 				)
 ORDER BY salary DESC;
-
-
